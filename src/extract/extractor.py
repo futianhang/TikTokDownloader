@@ -823,16 +823,13 @@ class Extractor:
         container: SimpleNamespace,
         data: SimpleNamespace,
     ) -> None:
-        if container.same:
-            container.cache["nickname"] = container.name
-            container.cache["mark"] = container.mark or container.name
-        else:
-            name = self.cleaner.filter_name(
-                self.safe_extract(data, "nickname", _("已注销账号")),
-                default=_("无效账号昵称"),
-            )
-            container.cache["nickname"] = name
-            container.cache["mark"] = name
+        # 删除了 if container.same 逻辑，强制执行数据提取
+        name = self.cleaner.filter_name(
+            self.safe_extract(data, "nickname", _("已注销账号")),
+            default=_("无效账号昵称"),
+        )
+        container.cache["nickname"] = name
+        container.cache["mark"] = name
 
     def preprocessing_data(
         self,
